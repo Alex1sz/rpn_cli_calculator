@@ -33,7 +33,7 @@ func (stack *Stack) Pop() (value interface{}) {
 // Godocs Interface conversions & type assertions https://golang.org/doc/effective_go.html#interface_conversions
 
 // General typecasting functions
-func toFloat(value interface{}) float64 {
+func ToFloat(value interface{}) float64 {
 	if float, ok := value.(float64); ok {
 		return float
 	}
@@ -48,12 +48,5 @@ func toString(value interface{}) string {
 }
 
 func (s *Stack) PopToFloat() float64 {
-	return toFloat(s.Pop())
+	return ToFloat(s.Pop())
 }
-
-// func toInterfaces(value interface{}) []interface{} {
-// 	if v, ok := value.([]interface{}); ok {
-// 		return v
-// 	}
-// 	return []interface{}{value}
-// }

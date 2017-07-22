@@ -104,6 +104,10 @@ func TestEvaluate(t *testing.T) {
 			"*": 6.0,
 			"/": 0.6666666666666666,
 		},
+		"1,1,5": {
+			"+": 6,
+			"-": -4,
+		},
 	}
 
 	for expressionStr, expectedResults := range expressionsMap {

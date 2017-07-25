@@ -116,7 +116,7 @@ func TestEvaluate(t *testing.T) {
 			expression := strings.Split(expressionStr, ",")
 			expression = append(expression, operator)
 
-			result := Evaluate(expression, dispatchTable, new(Stack))
+			result := Evaluate(&expression, dispatchTable, new(Stack))
 
 			if result != expected {
 				t.Errorf("Expected expression: '%s' to eq: %f, got: %f", strings.Join(expression, ","), expected, result)

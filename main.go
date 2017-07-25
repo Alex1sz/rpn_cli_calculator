@@ -9,9 +9,9 @@ import (
 	"strings"
 )
 
-func calcToShell(expression []string, dispatchTable calculator.DispatchTable, stack *calculator.Stack) {
-	val := calculator.Evaluate(expression, dispatchTable, stack)
-	fmt.Printf("%f\n", calculator.ToFloat(val))
+func calcToShell(expression *[]string, dispatchTable calculator.DispatchTable, stack *calculator.Stack) {
+	calcVal := calculator.Evaluate(expression, dispatchTable, stack)
+	fmt.Printf("%f \n", calculator.ToFloat(calcVal))
 }
 
 func main() {
@@ -35,19 +35,17 @@ func main() {
 			stack.Push(value)
 		},
 		"__DEFAULT__": func(token string, stack *calculator.Stack) {
-			// TO DO: BETTER way of handling bad token as it remains in expression array
-			// possibly add special character to check and override when found
-			return
+			fmt.Printf("Unknown token: %s \n enter a valid operator, number, or type 'help' for more info...\n", token)
 		},
 		"q": func(token string, stack *calculator.Stack) {
 			os.Exit(0)
 		},
 		"help": func(token string, stack *calculator.Stack) {
-			stack.Pop()
-			fmt.Printf("'q' to quit \n operators implemented '+', '-', '*', '/'")
+			fmt.Printf("'q' to exit \n operators implemented '+', '-', '*', '/'")
 		},
 	}
-	fmt.Println("RPN Calculator...")
+	// program name is always first argument
+	fmt.Printf("Welcome to: %s\n ", os.Args[0])
 
 	var expression []string
 	stack := new(calculator.Stack)
@@ -58,23 +56,24 @@ func main() {
 		for _, argStr := range os.Args[1:] {
 
 			expression = append(expression, argStr)
-			calcToShell(expression, dispatchTable, stack)
+			calcToShell(&expression, dispatchTable, stack)
 		}
 	}
+
 	// NewReader returns a new Reader whose buffer has the default size
 	reader := bufio.NewReader(os.Stdin)
 
 	for {
 		fmt.Print("-> ")
-		// reads until the first occurrence of delim in the input, returning a string containing the data up to and including the delimiter.
-		// If ReadString encounters an error before finding a delimiter, it returns the data read before the error and the error itself (often io.EOF)
+		// ReadString reads until the first occurrence of delim in the input, returning a string containing the data up to and including the delimiter.
+
 		inputStr, _ := reader.ReadString('\n')
-		// Replace returns new copy of string with trailing new line removed
+		// Replace() returns new copy of string with trailing new line removed
 		inputStr = strings.Replace(inputStr, "\n", "", -1)
 		// handle > one float/int per line
 		parsedInputArr := strings.Split(inputStr, " ")
 		expression = append(expression, parsedInputArr...)
 
-		calcToShell(expression, dispatchTable, stack)
+		calcToShell(&expression, dispatchTable, stack)
 	}
 }

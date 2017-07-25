@@ -25,6 +25,7 @@ func Evaluate(expression *[]string, dispatchTable DispatchTable, stack *Stack) i
 				copy((*expression)[idx:], (*expression)[idx+1:])
 				(*expression)[len(*expression)-1] = ""
 				(*expression) = (*expression)[:len(*expression)-1]
+				break
 			}
 		}
 		dispatchFunction(token, stack)

@@ -74,7 +74,7 @@ func TestEvaluate(t *testing.T) {
 			stack.Push(value)
 		},
 		"__DEFAULT__": func(token string, stack *Stack) {
-			panic(fmt.Sprintf("Unkown token %q", token))
+			fmt.Printf("Unknown token: %s \n enter a valid operator, number, or type 'help' for more info...\n", token)
 		},
 	}
 
@@ -108,10 +108,15 @@ func TestEvaluate(t *testing.T) {
 			"+": 6,
 			"-": -4,
 		},
+		// bad input mid-slice
+		"3,10,ee": {
+			"+": 10,
+			"-": 10,
+			"*": 10,
+		},
 	}
 
 	for expressionStr, expectedResults := range expressionsMap {
-		// loop thru 'expectedResults' by operator keys
 		for operator, expected := range expectedResults {
 			expression := strings.Split(expressionStr, ",")
 			expression = append(expression, operator)

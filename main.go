@@ -52,14 +52,13 @@ func main() {
 
 	// check for os.Args and evaluate each
 	if len(os.Args) > 1 {
-		fmt.Printf("calc %s", strings.Join(os.Args[1:], " "))
+		fmt.Printf("calc inputs: %s", strings.Join(os.Args[1:], " "))
 		for _, argStr := range os.Args[1:] {
 
 			expression = append(expression, argStr)
 			calcToShell(&expression, dispatchTable, stack)
 		}
 	}
-
 	// NewReader returns a new Reader whose buffer has the default size
 	reader := bufio.NewReader(os.Stdin)
 
